@@ -1,0 +1,4 @@
+<template>
+    <MyNavbar />
+    <slot />
+</template>
