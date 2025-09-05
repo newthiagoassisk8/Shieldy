@@ -1,0 +1,6 @@
+{
+    "id": "dev",
+    "timestamp": 1757082418537,
+    "matcher": { "static": {}, "wildcard": {}, "dynamic": {} },
+    "prerendered": []
+}
