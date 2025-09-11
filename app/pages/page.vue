@@ -1,8 +1,6 @@
 <template>
     <div class="text-gray-800 dark:text-gray-200">
-        <div aclass="sticky top-0 inset-x-0">
-            <h1>Hello Nuxt {{ version }}!</h1>
-        </div>
+        <h1>Hello Nuxt {{ version }}!</h1>
 
         <div class="h-screen overflow-y-auto">
             <template v-for="i in 4" :key="i">
