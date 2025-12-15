@@ -4,16 +4,17 @@ import { defineEventHandler, getQuery } from 'h3';
 // Mock database de itens TOTP
 const TOTPKeys: Record<string, any> = {
     item1: {
-        label: 'Demo 1 - 6 digitos',
+        label: 'Demo 1 - 1 digitos',
         icon: null,
-        key: 'JBSWY3DPEHPK3PXP',
-        opts: { digits: 6, period: 30 },
+        key: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+        opts: { digits: 6, period: 30 }
+
     },
     item2: {
         label: 'Demo 2 - 8 digitos',
         icon: null,
         key: 'JBSWY3DPEHPK3PXP',
-        opts: { digits: 8, algorithm: 'SHA-512', period: 30 },
+        opts: { digits: 8, algorithm: 'SHA-256', period: 30 },
     },
 };
 
@@ -29,11 +30,22 @@ async function getCode(uid: string) {
         expires,
         expiresDate: new Date(expires),
         digits: TOTPData.opts.digits,
+        secret: TOTPData.key
     };
 }
 
 export default defineEventHandler(async (event) => {
     const { uid } = getQuery(event);
+
+    setHeader(event, 'Access-Control-Allow-Origin', '*')
+    setHeader(event, 'Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+    setHeader(event, 'Access-Control-Allow-Headers', 'Content-Type')
+
+    // Se for uma requisição OPTIONS, apenas responde 204 (pré-flight)
+    if (event.node.req.method === 'OPTIONS') {
+        event.node.res.statusCode = 204
+        return
+    }
 
     if (uid) {
         // Retorna apenas o item solicitado
@@ -45,3 +57,4 @@ export default defineEventHandler(async (event) => {
     const codes = await Promise.all(Object.keys(TOTPKeys).map((id) => getCode(id)));
     return codes;
 });
+
