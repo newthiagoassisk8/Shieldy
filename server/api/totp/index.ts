@@ -28,6 +28,7 @@ async function getCode(uid: string) {
         label: TOTPData.label,
         otp,
         expires,
+        now: (new Date()).getTime(),
         expiresDate: new Date(expires),
         digits: TOTPData.opts.digits,
         secret: TOTPData.key
@@ -57,4 +58,3 @@ export default defineEventHandler(async (event) => {
     const codes = await Promise.all(Object.keys(TOTPKeys).map((id) => getCode(id)));
     return codes;
 });
-

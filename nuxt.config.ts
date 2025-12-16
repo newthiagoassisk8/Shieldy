@@ -16,4 +16,8 @@ export default defineNuxtConfig({
     vite: {
         plugins: [tailwindcss()],
     },
+    devServer: {
+        host: '0.0.0.0', // expõe para todas as interfaces de rede
+        port: 3000,      // opcional: define a porta
+    }
 });
